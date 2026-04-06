@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1"
-format: md
+format: html
 ---
 Andrew Steinkruger  
 AEC 699  
@@ -94,11 +94,11 @@ dat_growth =
   filter(ntile(ANN_NET_GROWTH_ACRE_PLOT, 100) %in% 2:99) %>% 
   filter(ntile(EST_BEGIN_ACRE_PLOT, 100) %in% 2:99) %>% 
   filter(ntile(EST_END_ACRE_PLOT, 100) %in% 2:99) %>% 
-  # Thousands of board feet/acre by plot. Site classes in two bins. 
-  mutate(MBF_0 = EST_BEGIN_ACRE_PLOT / 1000,
+  # Site classes into bins and BF to MBF. 
+  mutate(SITECLCD_Bin = ifelse(SITECLCD < 4, 0, 1),
+         MBF_0 = EST_BEGIN_ACRE_PLOT / 1000,
          MBF_1 = EST_END_ACRE_PLOT / 1000,
-         MBF_Annual = ANN_NET_GROWTH_ACRE_PLOT / 1000,
-         SITECLCD_Bin = ifelse(SITECLCD < 4, 0, 1)) %>% 
+         MBF_Annual = ANN_NET_GROWTH_ACRE_PLOT / 1000) %>% 
   select(-ends_with("_PLOT")) %T>% 
   # Export
   write_csv("data/dat_assignment1.csv")
